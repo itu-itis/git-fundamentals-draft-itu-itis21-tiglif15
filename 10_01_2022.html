@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Current Time</title>
+		<script>
+			async function get_cities() {
+                let region = document.querySelector("#continent").value;
+                let url = "http://uyar.pythonanywhere.com/cities?region=" + region;
+                let response = await fetch(url);
+                let result = await response.text();
+                document.querySelector("#city").innerHTML = result;
+                document.querySelector("#city").disabled = false;
+            }
+
+            async function show_time() {
+                let zone = document.querySelector("#city").value;
+                let url = "http://uyar.pythonanywhere.com/time?zone=" + zone;
+                let response = await fetch(url);
+                let result = await response.text();
+                document.querySelector("#result").innerHTML = result;
+            }
+		</script>
+	</head>
+	<body>
+		<form action="." method="POST" onsubmit="event.preventDefault(); show_time();">
+            <label for="continent">Select continent:</label>
+            <select name="region" id="continent" onchange="get_cities();">
+                <option value="Africa">Africa</option>
+                <option value="America">America</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Pacific">Pacific</option>
+            </select>
+            <label for="city">Select city:</label>
+            <select name="zone" id="city" disabled>
+
+            </select>
+            <button>Show</button>
+        </form>
+        <p id="result"></p>
+	</body>
+</html>
